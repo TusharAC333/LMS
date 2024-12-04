@@ -19,12 +19,7 @@ mongoose
   .catch((error) => console.error('DB connection error:', error));
 
 // Routes
-app.use('/',(req,res)=>{
-    res.json({
-        status:'API Is Working',
-        code:200
-    })
-})
+
 app.use('/books', bookRoutes);
 app.use('/members', memberRoutes);
 
