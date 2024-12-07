@@ -2,7 +2,6 @@ const express = require('express');
 const Book = require('../models/Book');
 const Transaction = require('../models/Transaction');
 const router = express.Router();
-
 // List available books
 router.get('/available', async (req, res) => {
   try {
@@ -23,6 +22,28 @@ router.post('/add',async(req,res)=>{
         res.status(500).json({error:'Unable to a add book'})
     }
 })
+
+// Search books by title or author
+router.get('/search', async (req, res) => {
+  const { query } = req.query; // Extract search query from query parameters
+  try {
+    if (!query) {
+      return res.status(400).json({ error: 'Search query is required.' });
+    }
+
+    const books = await Book.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } }, // Case-insensitive title match
+        { author: { $regex: query, $options: 'i' } } // Case-insensitive author match
+      ]
+    });
+
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ error: 'Error searching books.' });
+  }
+});
+
 
 // Get book details by ID
 router.get('/:isbn', async (req, res) => {

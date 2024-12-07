@@ -19,17 +19,12 @@ mongoose
   .catch((error) => console.error('DB connection error:', error));
 
 // Routes
-app.use('/',(req,res)=>{
-    res.json({
-        status:'API Is Working',
-        code:200
-    })
-})
+
 app.use('/books', bookRoutes);
 app.use('/members', memberRoutes);
 
 // Start server
-const PORT = 5000;
+const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
